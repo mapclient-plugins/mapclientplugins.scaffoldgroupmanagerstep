@@ -1,10 +1,26 @@
-
+import os
+import json
 
 from PySide import QtGui
+
 from mapclientplugins.scaffoldgroupmanagerstep.ui_configuredialog import Ui_ConfigureDialog
+from mapclientplugins.scaffoldgroupmanagerstep.ui_group_configuredialog import Ui_MehGroupConfigureDialog
 
 INVALID_STYLE_SHEET = 'background-color: rgba(239, 0, 0, 50)'
 DEFAULT_STYLE_SHEET = ''
+
+
+class ConfigFile(QtGui.QDialog):
+
+    def __init__(self, parent=None):
+        QtGui.QDialog.__init__(self, parent)
+        self._ui = Ui_MehGroupConfigureDialog()
+        self._ui.setupUi(self)
+
+    def get_config(self):
+        cfg = dict()
+        cfg['groups'] = self._ui.plainTextEdit.toPlainText().split("\n")
+        return cfg
 
 
 class ConfigureDialog(QtGui.QDialog):
@@ -12,11 +28,19 @@ class ConfigureDialog(QtGui.QDialog):
     Configure dialog to present the user with the options to configure this step.
     """
 
-    def __init__(self, parent=None):
+    def __init__(self, location=None, parent=None):
         QtGui.QDialog.__init__(self, parent)
 
         self._ui = Ui_ConfigureDialog()
         self._ui.setupUi(self)
+
+        self._groups = {}
+        self._location = location
+        self._fileName = "groups.config"
+        if self._location:
+            if os.path.isfile(os.path.join(self._location, self._fileName)):
+                self._ui.label_5.setText(os.path.join(self._location, self._fileName))
+                self._loadConfig()
 
         # Keep track of the previous identifier so that we can track changes
         # and know how many occurrences of the current identifier there should
@@ -26,10 +50,46 @@ class ConfigureDialog(QtGui.QDialog):
         # We will use this method to decide whether the identifier is unique.
         self.identifierOccursCount = None
 
+        self._previousLocation = ''
         self._makeConnections()
 
     def _makeConnections(self):
         self._ui.lineEdit0.textChanged.connect(self.validate)
+        self._ui.pushButton.clicked.connect(self.__fileChooserClicked)
+        self._ui.pushButton_2.clicked.connect(self.__edit)
+
+    def __edit(self):
+        editor = ConfigFile(self)
+        editor.setModal(True)
+        editor.exec_()
+        self._groups = editor.get_config()
+
+    def __fileChooserClicked(self):
+        location, _ = QtGui.QFileDialog.getOpenFileName(self, 'Select File Location', self._previousLocation)
+        if os.path.isfile(location):
+            with open(location) as config_file:
+                cfg = json.load(config_file)
+            self._groups = cfg["groups"]
+        else:
+            return
+
+        if location:
+            self._previousLocation = location
+
+    def getGroups(self):
+        return self._groups
+
+    def _loadConfig(self):
+        try:
+            with open(os.path.join(self._location, self._fileName), "r") as f:
+                saved_settings = json.loads(f.read())
+                self._groups.update(saved_settings)
+        except:
+            pass
+
+    def saveConfig(self):
+        with open(os.path.join(self._location, self._fileName), "w") as f:
+            f.write(json.dumps(self._groups, sort_keys=False, indent=4))
 
     def accept(self):
         """
