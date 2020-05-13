@@ -18,7 +18,7 @@ from opencmiss.utils.zinc.general import ChangeManager
 
 class ScaffoldGroupManager(object):
 
-    def __init__(self, input_scaffold_file):
+    def __init__(self, input_scaffold_file, groups):
         self._context = Context('ScaffoldGroupManager')
         self._region = self._context.createRegion()
         self._region.setName('GroupManagerRegion')
@@ -26,11 +26,10 @@ class ScaffoldGroupManager(object):
         self._scaffold_file = input_scaffold_file
         self._model_coordinates_field = None
         self._output_filename = None
-        self._groups = None
+        self._groups = groups
 
         self._load()
-        self._get_groups()
-        for group in self._groups:
+        for group in groups["groups"]:
             self._manage_groups(group)
 
     def _discover_coordinate_fields(self):
@@ -55,13 +54,6 @@ class ScaffoldGroupManager(object):
                     field = None
         if field:
             self._set_model_coordinates_field(field)
-
-    def _get_groups(self):
-        current_path = os.path.dirname(__file__)
-        config_path = os.path.join(current_path, 'resources/groups.config')
-        with open(config_path) as config_file:
-            cfg = json.load(config_file)
-        self._groups = cfg["groups"]
 
     def _get_highest_dimension_mesh(self):
         for d in range(2, -1, -1):
@@ -138,6 +130,7 @@ class ScaffoldGroupManagerStep(WorkflowStepMountPoint):
         self._config = {}
         self._config['identifier'] = ''
         self._scaffold_group_manager = None
+        self._groups = {}
 
     def execute(self):
         """
@@ -146,7 +139,13 @@ class ScaffoldGroupManagerStep(WorkflowStepMountPoint):
         may be connected up to a button in a widget for example.
         """
         # Put your execute step code here before calling the '_doneExecution' method.
-        self._scaffold_group_manager = ScaffoldGroupManager(self._port0_input_file)
+
+        if len(self._groups) == 0 and os.path.isfile(os.path.join(self._location, 'groups.config')):
+            with open(os.path.join(self._location, 'groups.config'), "r") as f:
+                saved_settings = json.loads(f.read())
+                self._groups.update(saved_settings)
+
+        self._scaffold_group_manager = ScaffoldGroupManager(self._port0_input_file, self._groups)
         self._port1_output_file = self._scaffold_group_manager.get_output_file_name()
         self._doneExecution()
 
@@ -179,7 +178,8 @@ class ScaffoldGroupManagerStep(WorkflowStepMountPoint):
         then set:
             self._configured = True
         """
-        dlg = ConfigureDialog(self._main_window)
+
+        dlg = ConfigureDialog(self._location, self._main_window)
         dlg.identifierOccursCount = self._identifierOccursCount
         dlg.setConfig(self._config)
         dlg.validate()
@@ -190,6 +190,8 @@ class ScaffoldGroupManagerStep(WorkflowStepMountPoint):
 
         self._configured = dlg.validate()
         self._configuredObserver()
+        self._groups = dlg.getGroups()
+        dlg.saveConfig()
 
     def getIdentifier(self):
         """
