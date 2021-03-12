@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'group_configuredialog.ui'
 #
-# Created: Wed May 13 14:10:57 2020
+# Created: Sat Mar 13 10:16:58 2021
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_MehGroupConfigureDialog(object):
     def setupUi(self, MehGroupConfigureDialog):
         MehGroupConfigureDialog.setObjectName("MehGroupConfigureDialog")
-        MehGroupConfigureDialog.resize(539, 278)
+        MehGroupConfigureDialog.resize(569, 361)
         self.gridLayout = QtGui.QGridLayout(MehGroupConfigureDialog)
         self.gridLayout.setObjectName("gridLayout")
         self.buttonBox = QtGui.QDialogButtonBox(MehGroupConfigureDialog)
@@ -46,7 +46,5 @@ class Ui_MehGroupConfigureDialog(object):
 
     def retranslateUi(self, MehGroupConfigureDialog):
         MehGroupConfigureDialog.setWindowTitle(QtGui.QApplication.translate("MehGroupConfigureDialog", "Group Editor", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("MehGroupConfigureDialog", "Please enter the mesh groups below.\n"
-"One group per line.\n"
-"", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("MehGroupConfigureDialog", "<html><head/><body><p>Please enter the mesh groups below.</p><p>One group per line. Also specify the surface for each group.</p><p>Example:</p><p>- left pulmany vein, inner</p><p>- interatrial septum, outer</p><p><br/></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
 
