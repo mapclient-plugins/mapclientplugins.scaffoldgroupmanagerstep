@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>539</width>
-    <height>278</height>
+    <width>569</width>
+    <height>361</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -42,9 +42,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Please enter the mesh groups below.
-One group per line.
-</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Please enter the mesh groups below.&lt;/p&gt;&lt;p&gt;One group per line. Also specify the surface for each group.&lt;/p&gt;&lt;p&gt;Example:&lt;/p&gt;&lt;p&gt;- left pulmany vein, inner&lt;/p&gt;&lt;p&gt;- interatrial septum, outer&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
