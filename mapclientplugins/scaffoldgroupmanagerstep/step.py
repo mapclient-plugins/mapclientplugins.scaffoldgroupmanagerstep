@@ -1,5 +1,8 @@
 """
 MAP Client Plugin Step
+
+NOTE: This plugin, although may work for any scaffold, is written specifically for the heart scaffold.
+In future, we may need to generalize it for other scaffolds.
 """
 import os
 import json
@@ -71,9 +74,11 @@ class ScaffoldGroupManager(object):
         self._mesh = [self._field_module.findMeshByDimension(d + 1) for d in range(3)]
         self._discover_coordinate_fields()
 
-    def _manage_groups(self, group):
+    def _manage_groups(self, group_list):
         with ChangeManager(self._field_module):
-            print(group)
+            print(group_list)
+            group = group_list.split(',')[0]
+            surface = group_list.split(',')[1]
             term_group = self._field_module.findFieldByName(group).castGroup()
             term_group.setSubelementHandlingMode(FieldGroup.SUBELEMENT_HANDLING_MODE_FULL)
             mesh2d = self._field_module.findMeshByDimension(2)
@@ -82,17 +87,22 @@ class ScaffoldGroupManager(object):
                 term_face_group = term_group.createFieldElementGroup(mesh2d)
             term_mesh_group = term_face_group.getMeshGroup()
             is_exterior = self._field_module.createFieldIsExterior()
-            is_endo = self._field_module.createFieldAnd(is_exterior, self._field_module.createFieldIsOnFace(Element.FACE_TYPE_XI3_0))
+            is_interior = self._field_module.createFieldAnd(is_exterior, self._field_module.createFieldIsOnFace(Element.FACE_TYPE_XI3_0))
 
             tmp_element_group = self._field_module.createFieldElementGroup(mesh2d)
             tmp_mesh_group = tmp_element_group.getMeshGroup()
-            tmp_mesh_group.addElementsConditional(self._field_module.createFieldAnd(term_face_group, is_endo))
+            if 'outer' in surface:
+                tmp_mesh_group.addElementsConditional(self._field_module.createFieldAnd(term_face_group, is_exterior))
+            elif 'inner' in surface:
+                tmp_mesh_group.addElementsConditional(self._field_module.createFieldAnd(term_face_group, is_interior))
+            else:
+                raise KeyError("Surface {} is not valid".format(surface))
             term_group.clear()
             term_mesh_group.addElementsConditional(tmp_element_group)
             # delete any temporary fields
             del tmp_element_group
             del tmp_mesh_group
-            del is_endo
+            del is_interior
             filename = os.path.basename(self._scaffold_file).split('.')[0] + '_regrouped.exf'
             path = os.path.dirname(self._scaffold_file)
             self._output_filename = os.path.join(path, filename)
