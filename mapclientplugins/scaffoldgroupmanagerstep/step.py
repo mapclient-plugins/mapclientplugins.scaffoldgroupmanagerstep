@@ -32,8 +32,8 @@ class ScaffoldGroupManager(object):
         self._groups = groups
 
         self._load()
-        for group in groups["groups"]:
-            self._manage_groups(group)
+        self._manage_groups(groups["groups"])
+        self._save()
 
     def _discover_coordinate_fields(self):
         field = None
@@ -74,39 +74,46 @@ class ScaffoldGroupManager(object):
         self._mesh = [self._field_module.findMeshByDimension(d + 1) for d in range(3)]
         self._discover_coordinate_fields()
 
-    def _manage_groups(self, group_list):
-        with ChangeManager(self._field_module):
-            print(group_list)
-            group = group_list.split(',')[0]
-            surface = group_list.split(',')[1]
-            term_group = self._field_module.findFieldByName(group).castGroup()
-            term_group.setSubelementHandlingMode(FieldGroup.SUBELEMENT_HANDLING_MODE_FULL)
-            mesh2d = self._field_module.findMeshByDimension(2)
-            term_face_group = term_group.getFieldElementGroup(mesh2d)
-            if not term_face_group.isValid():
-                term_face_group = term_group.createFieldElementGroup(mesh2d)
-            term_mesh_group = term_face_group.getMeshGroup()
-            is_exterior = self._field_module.createFieldIsExterior()
-            is_interior = self._field_module.createFieldAnd(is_exterior, self._field_module.createFieldIsOnFace(Element.FACE_TYPE_XI3_0))
+    def _save(self):
+        filename = os.path.basename(self._scaffold_file).split('.')[0] + '_regrouped.exf'
+        path = os.path.dirname(self._scaffold_file)
+        self._output_filename = os.path.join(path, filename)
+        self._region.writeFile(self._output_filename)
 
-            tmp_element_group = self._field_module.createFieldElementGroup(mesh2d)
-            tmp_mesh_group = tmp_element_group.getMeshGroup()
-            if 'outer' in surface:
-                tmp_mesh_group.addElementsConditional(self._field_module.createFieldAnd(term_face_group, is_exterior))
-            elif 'inner' in surface:
-                tmp_mesh_group.addElementsConditional(self._field_module.createFieldAnd(term_face_group, is_interior))
-            else:
-                raise KeyError("Surface {} is not valid".format(surface))
-            term_group.clear()
-            term_mesh_group.addElementsConditional(tmp_element_group)
-            # delete any temporary fields
-            del tmp_element_group
-            del tmp_mesh_group
-            del is_interior
-            filename = os.path.basename(self._scaffold_file).split('.')[0] + '_regrouped.exf'
-            path = os.path.dirname(self._scaffold_file)
-            self._output_filename = os.path.join(path, filename)
-            self._region.writeFile(self._output_filename)
+    def _manage_groups(self, group_item_list):
+        with ChangeManager(self._field_module):
+            is_exterior = self._field_module.createFieldIsExterior()
+            is_inner = self._field_module.createFieldAnd(is_exterior, self._field_module.createFieldIsOnFace(Element.FACE_TYPE_XI3_0))
+            is_outer = self._field_module.createFieldAnd(is_exterior, self._field_module.createFieldIsOnFace(Element.FACE_TYPE_XI3_1))
+            mesh2d = self._field_module.findMeshByDimension(2)
+            for group_item in group_item_list:
+                print(group_item)
+                group = group_item.split(',')[0]
+                surfaces = group_item.split(',')[1:]
+                term_group = self._field_module.findFieldByName(group).castGroup()
+                #term_group.setSubelementHandlingMode(FieldGroup.SUBELEMENT_HANDLING_MODE_FULL)
+                term_face_group = term_group.getFieldElementGroup(mesh2d)
+                if not term_face_group.isValid():
+                    print('Warning: Did not find face group', group)
+                    continue
+                term_mesh_group = term_face_group.getMeshGroup()
+                surface_condition = None
+                for surface in surfaces:
+                    surface = surface.strip()
+                    if surface == 'inner':
+                        surface_condition = is_inner
+                    elif surface == 'outer':
+                        surface_condition = self._field_module.createFieldOr(surface_condition, is_outer) if (surface_condition) else is_outer
+                    else:
+                        raise KeyError("Surface {} is not valid".format(surface))
+                if surface_condition:
+                    term_mesh_group.removeElementsConditional(self._field_module.createFieldNot(surface_condition))
+                else:
+                    print('Warning: No surface condition for group', group)
+                del surface_condition
+            del is_exterior
+            del is_inner
+            del is_outer
 
     def _set_model_coordinates_field(self, model_coordinates_field: Field):
         finite_element_field = model_coordinates_field.castFiniteElement()
