@@ -1,7 +1,7 @@
 import os
 import json
 
-from PySide import QtGui
+from PySide2 import QtWidgets
 
 from mapclientplugins.scaffoldgroupmanagerstep.ui_configuredialog import Ui_ConfigureDialog
 from mapclientplugins.scaffoldgroupmanagerstep.ui_group_configuredialog import Ui_MehGroupConfigureDialog
@@ -10,10 +10,10 @@ INVALID_STYLE_SHEET = 'background-color: rgba(239, 0, 0, 50)'
 DEFAULT_STYLE_SHEET = ''
 
 
-class ConfigFile(QtGui.QDialog):
+class ConfigFile(QtWidgets.QDialog):
 
     def __init__(self, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
         self._ui = Ui_MehGroupConfigureDialog()
         self._ui.setupUi(self)
 
@@ -23,13 +23,13 @@ class ConfigFile(QtGui.QDialog):
         return cfg
 
 
-class ConfigureDialog(QtGui.QDialog):
+class ConfigureDialog(QtWidgets.QDialog):
     """
     Configure dialog to present the user with the options to configure this step.
     """
 
     def __init__(self, location=None, parent=None):
-        QtGui.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent)
 
         self._ui = Ui_ConfigureDialog()
         self._ui.setupUi(self)
@@ -65,7 +65,7 @@ class ConfigureDialog(QtGui.QDialog):
         self._groups = editor.get_config()
 
     def __fileChooserClicked(self):
-        location, _ = QtGui.QFileDialog.getOpenFileName(self, 'Select File Location', self._previousLocation)
+        location, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Select File Location', self._previousLocation)
         if os.path.isfile(location):
             with open(location) as config_file:
                 cfg = json.load(config_file)
@@ -96,14 +96,14 @@ class ConfigureDialog(QtGui.QDialog):
         Override the accept method so that we can confirm saving an
         invalid configuration.
         """
-        result = QtGui.QMessageBox.Yes
+        result = QtWidgets.QMessageBox.Yes
         if not self.validate():
-            result = QtGui.QMessageBox.warning(self, 'Invalid Configuration',
+            result = QtWidgets.QMessageBox.warning(self, 'Invalid Configuration',
                 'This configuration is invalid.  Unpredictable behaviour may result if you choose \'Yes\', are you sure you want to save this configuration?)',
-                QtGui.QMessageBox.Yes | QtGui.QMessageBox.No, QtGui.QMessageBox.No)
+                QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
 
-        if result == QtGui.QMessageBox.Yes:
-            QtGui.QDialog.accept(self)
+        if result == QtWidgets.QMessageBox.Yes:
+            QtWidgets.QDialog.accept(self)
 
     def validate(self):
         """

@@ -7,7 +7,7 @@ In future, we may need to generalize it for other scaffolds.
 import os
 import json
 
-from PySide import QtGui
+from PySide2 import QtGui
 
 from mapclient.mountpoints.workflowstep import WorkflowStepMountPoint
 from mapclientplugins.scaffoldgroupmanagerstep.configuredialog import ConfigureDialog

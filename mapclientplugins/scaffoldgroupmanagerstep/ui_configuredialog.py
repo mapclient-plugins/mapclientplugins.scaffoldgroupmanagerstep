@@ -1,98 +1,126 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'configuredialog.ui'
-#
-# Created: Wed May 13 14:12:24 2020
-#      by: pyside-uic 0.2.15 running on PySide 1.2.4
-#
-# WARNING! All changes made in this file will be lost!
+################################################################################
+## Form generated from reading UI file 'configuredialog.ui'
+##
+## Created by: Qt User Interface Compiler version 5.15.2
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
 
-from PySide import QtCore, QtGui
+from PySide2.QtCore import *
+from PySide2.QtGui import *
+from PySide2.QtWidgets import *
+
 
 class Ui_ConfigureDialog(object):
     def setupUi(self, ConfigureDialog):
-        ConfigureDialog.setObjectName("ConfigureDialog")
+        if not ConfigureDialog.objectName():
+            ConfigureDialog.setObjectName(u"ConfigureDialog")
         ConfigureDialog.resize(597, 336)
-        self.gridLayout = QtGui.QGridLayout(ConfigureDialog)
-        self.gridLayout.setObjectName("gridLayout")
-        self.buttonBox = QtGui.QDialogButtonBox(ConfigureDialog)
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
+        self.gridLayout = QGridLayout(ConfigureDialog)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.buttonBox = QDialogButtonBox(ConfigureDialog)
+        self.buttonBox.setObjectName(u"buttonBox")
+        self.buttonBox.setOrientation(Qt.Horizontal)
+        self.buttonBox.setStandardButtons(QDialogButtonBox.Cancel|QDialogButtonBox.Ok)
+
         self.gridLayout.addWidget(self.buttonBox, 2, 0, 1, 1)
-        self.configGroupBox = QtGui.QGroupBox(ConfigureDialog)
-        self.configGroupBox.setTitle("")
-        self.configGroupBox.setObjectName("configGroupBox")
-        self.gridLayout_2 = QtGui.QGridLayout(self.configGroupBox)
-        self.gridLayout_2.setObjectName("gridLayout_2")
-        self.label_5 = QtGui.QLabel(self.configGroupBox)
-        font = QtGui.QFont()
+
+        self.configGroupBox = QGroupBox(ConfigureDialog)
+        self.configGroupBox.setObjectName(u"configGroupBox")
+        self.gridLayout_2 = QGridLayout(self.configGroupBox)
+        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.label_5 = QLabel(self.configGroupBox)
+        self.label_5.setObjectName(u"label_5")
+        font = QFont()
         font.setItalic(True)
         self.label_5.setFont(font)
-        self.label_5.setObjectName("label_5")
+
         self.gridLayout_2.addWidget(self.label_5, 6, 0, 1, 1)
-        self.label0 = QtGui.QLabel(self.configGroupBox)
-        self.label0.setObjectName("label0")
+
+        self.label0 = QLabel(self.configGroupBox)
+        self.label0.setObjectName(u"label0")
+
         self.gridLayout_2.addWidget(self.label0, 2, 0, 1, 1)
-        self.label_3 = QtGui.QLabel(self.configGroupBox)
-        self.label_3.setObjectName("label_3")
+
+        self.label_3 = QLabel(self.configGroupBox)
+        self.label_3.setObjectName(u"label_3")
+
         self.gridLayout_2.addWidget(self.label_3, 10, 0, 1, 1)
-        self.pushButton_2 = QtGui.QPushButton(self.configGroupBox)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Fixed)
+
+        self.pushButton_2 = QPushButton(self.configGroupBox)
+        self.pushButton_2.setObjectName(u"pushButton_2")
+        sizePolicy = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.pushButton_2.sizePolicy().hasHeightForWidth())
         self.pushButton_2.setSizePolicy(sizePolicy)
-        self.pushButton_2.setObjectName("pushButton_2")
+
         self.gridLayout_2.addWidget(self.pushButton_2, 11, 0, 1, 1)
-        spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.gridLayout_2.addItem(spacerItem, 1, 0, 1, 1)
-        self.label_2 = QtGui.QLabel(self.configGroupBox)
-        font = QtGui.QFont()
-        font.setWeight(75)
-        font.setBold(True)
-        self.label_2.setFont(font)
-        self.label_2.setObjectName("label_2")
+
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.gridLayout_2.addItem(self.verticalSpacer, 1, 0, 1, 1)
+
+        self.label_2 = QLabel(self.configGroupBox)
+        self.label_2.setObjectName(u"label_2")
+        font1 = QFont()
+        font1.setBold(True)
+        font1.setWeight(75)
+        self.label_2.setFont(font1)
+
         self.gridLayout_2.addWidget(self.label_2, 0, 0, 1, 1)
-        spacerItem1 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
-        self.gridLayout_2.addItem(spacerItem1, 7, 0, 1, 1)
-        self.pushButton = QtGui.QPushButton(self.configGroupBox)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Fixed)
+
+        self.gridLayout_2.addItem(self.verticalSpacer_2, 7, 0, 1, 1)
+
+        self.pushButton = QPushButton(self.configGroupBox)
+        self.pushButton.setObjectName(u"pushButton")
         sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
         self.pushButton.setSizePolicy(sizePolicy)
-        self.pushButton.setObjectName("pushButton")
+
         self.gridLayout_2.addWidget(self.pushButton, 9, 0, 1, 1)
-        self.label_4 = QtGui.QLabel(self.configGroupBox)
-        self.label_4.setObjectName("label_4")
+
+        self.label_4 = QLabel(self.configGroupBox)
+        self.label_4.setObjectName(u"label_4")
+
         self.gridLayout_2.addWidget(self.label_4, 5, 0, 1, 1)
-        self.label = QtGui.QLabel(self.configGroupBox)
-        self.label.setObjectName("label")
+
+        self.label = QLabel(self.configGroupBox)
+        self.label.setObjectName(u"label")
+
         self.gridLayout_2.addWidget(self.label, 8, 0, 1, 1)
-        self.lineEdit0 = QtGui.QLineEdit(self.configGroupBox)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Maximum, QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
+
+        self.lineEdit0 = QLineEdit(self.configGroupBox)
+        self.lineEdit0.setObjectName(u"lineEdit0")
         sizePolicy.setHeightForWidth(self.lineEdit0.sizePolicy().hasHeightForWidth())
         self.lineEdit0.setSizePolicy(sizePolicy)
-        self.lineEdit0.setObjectName("lineEdit0")
+
         self.gridLayout_2.addWidget(self.lineEdit0, 4, 0, 1, 1)
+
+
         self.gridLayout.addWidget(self.configGroupBox, 1, 0, 1, 1)
 
+
         self.retranslateUi(ConfigureDialog)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), ConfigureDialog.accept)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("rejected()"), ConfigureDialog.reject)
-        QtCore.QMetaObject.connectSlotsByName(ConfigureDialog)
+        self.buttonBox.accepted.connect(ConfigureDialog.accept)
+        self.buttonBox.rejected.connect(ConfigureDialog.reject)
+
+        QMetaObject.connectSlotsByName(ConfigureDialog)
+    # setupUi
 
     def retranslateUi(self, ConfigureDialog):
-        ConfigureDialog.setWindowTitle(QtGui.QApplication.translate("ConfigureDialog", "Configure Step", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_5.setText(QtGui.QApplication.translate("ConfigureDialog", "None", None, QtGui.QApplication.UnicodeUTF8))
-        self.label0.setText(QtGui.QApplication.translate("ConfigureDialog", "identifier:  ", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_3.setText(QtGui.QApplication.translate("ConfigureDialog", "Or create a new one:", None, QtGui.QApplication.UnicodeUTF8))
-        self.pushButton_2.setText(QtGui.QApplication.translate("ConfigureDialog", "New config file", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_2.setText(QtGui.QApplication.translate("ConfigureDialog", "This step converts the volume groups in the scaffold to surface xi3=0 as specified by the config file.", None, QtGui.QApplication.UnicodeUTF8))
-        self.pushButton.setText(QtGui.QApplication.translate("ConfigureDialog", "Load config file", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_4.setText(QtGui.QApplication.translate("ConfigureDialog", "Saved config file from previous sessions: ", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("ConfigureDialog", "Load a config file:", None, QtGui.QApplication.UnicodeUTF8))
+        ConfigureDialog.setWindowTitle(QCoreApplication.translate("ConfigureDialog", u"Configure Step", None))
+        self.configGroupBox.setTitle("")
+        self.label_5.setText(QCoreApplication.translate("ConfigureDialog", u"None", None))
+        self.label0.setText(QCoreApplication.translate("ConfigureDialog", u"identifier:  ", None))
+        self.label_3.setText(QCoreApplication.translate("ConfigureDialog", u"Or create a new one:", None))
+        self.pushButton_2.setText(QCoreApplication.translate("ConfigureDialog", u"New config file", None))
+        self.label_2.setText(QCoreApplication.translate("ConfigureDialog", u"This step converts the volume groups in the scaffold to surface xi3=0 as specified by the config file.", None))
+        self.pushButton.setText(QCoreApplication.translate("ConfigureDialog", u"Load config file", None))
+        self.label_4.setText(QCoreApplication.translate("ConfigureDialog", u"Saved config file from previous sessions: ", None))
+        self.label.setText(QCoreApplication.translate("ConfigureDialog", u"Load a config file:", None))
+    # retranslateUi
 
