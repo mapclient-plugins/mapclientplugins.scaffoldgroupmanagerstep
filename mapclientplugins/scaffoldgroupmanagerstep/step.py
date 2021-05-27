@@ -32,7 +32,8 @@ class ScaffoldGroupManager(object):
         self._groups = groups
 
         self._load()
-        self._manage_groups(groups["groups"])
+        if "groups" in groups:
+            self._manage_groups(groups["groups"])
         self._save()
 
     def _discover_coordinate_fields(self):

@@ -15,13 +15,14 @@ def readfile(filename, split=False):
             return stream.read().split("\n")
         return stream.read()
 
+
 readme = readfile("README.rst", split=True)[3:]  # skip title
 # For requirements not hosted on PyPi place listings
 # into the 'requirements.txt' file.
 requires = [
     # minimal requirements listing
     "opencmiss.utils >= 0.3",
-    "opencmiss.zinc >= 3.3",  # not yet on pypi - need manual install from opencmiss.org
+    "opencmiss.zinc >= 3.2",  # not yet on pypi - need manual install from opencmiss.org
     "opencmiss.zincwidgets >= 2.0"
 ]
 source_license = readfile("LICENSE")
@@ -36,10 +37,12 @@ class InstallCommand(install):
         subprocess.call(['pip', 'install', '-r', os.path.join(SETUP_DIR, 'requirements.txt')])
 
 
-setup(name='mapclientplugins.scaffoldgroupmanagerstep',
+setup(
+    name='mapclientplugins.scaffoldgroupmanagerstep',
     version='0.1.0',
-    description='',
+    description='The Scaffold Group Manager step is a plugin for MAP Client.',
     long_description='\n'.join(readme) + source_license,
+    long_description_content_type='text/x-rst',
     classifiers=[
       "Development Status :: 3 - Alpha",
       "License :: OSI Approved :: Apache Software License",
@@ -55,4 +58,4 @@ setup(name='mapclientplugins.scaffoldgroupmanagerstep',
     include_package_data=True,
     zip_safe=False,
     install_requires=requires,
-    )
+)

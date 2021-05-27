@@ -36,10 +36,10 @@ class ConfigureDialog(QtWidgets.QDialog):
 
         self._groups = {}
         self._location = location
-        self._fileName = "groups.config"
-        if self._location:
-            if os.path.isfile(os.path.join(self._location, self._fileName)):
-                self._ui.label_5.setText(os.path.join(self._location, self._fileName))
+        config_file_name = self._configFileName()
+        if config_file_name:
+            if os.path.isfile(config_file_name):
+                self._ui.label_5.setText(config_file_name)
                 self._loadConfig()
 
         # Keep track of the previous identifier so that we can track changes
@@ -55,16 +55,16 @@ class ConfigureDialog(QtWidgets.QDialog):
 
     def _makeConnections(self):
         self._ui.lineEdit0.textChanged.connect(self.validate)
-        self._ui.pushButton.clicked.connect(self.__fileChooserClicked)
-        self._ui.pushButton_2.clicked.connect(self.__edit)
+        self._ui.pushButton.clicked.connect(self._fileChooserClicked)
+        self._ui.pushButton_2.clicked.connect(self._edit)
 
-    def __edit(self):
+    def _edit(self):
         editor = ConfigFile(self)
         editor.setModal(True)
         editor.exec_()
         self._groups = editor.get_config()
 
-    def __fileChooserClicked(self):
+    def _fileChooserClicked(self):
         location, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Select File Location', self._previousLocation)
         if os.path.isfile(location):
             with open(location) as config_file:
@@ -79,17 +79,23 @@ class ConfigureDialog(QtWidgets.QDialog):
     def getGroups(self):
         return self._groups
 
+    def _configFileName(self):
+        return os.path.isfile(os.path.join(self._location, "groups.config")) if self._location else None
+
     def _loadConfig(self):
         try:
-            with open(os.path.join(self._location, self._fileName), "r") as f:
+            with open(self._configFileName(), "r") as f:
                 saved_settings = json.loads(f.read())
                 self._groups.update(saved_settings)
         except:
             pass
 
     def saveConfig(self):
-        with open(os.path.join(self._location, self._fileName), "w") as f:
-            f.write(json.dumps(self._groups, sort_keys=False, indent=4))
+        try:
+            with open(self._configFileName(), "w") as f:
+                f.write(json.dumps(self._groups, sort_keys=False, indent=4))
+        except:
+            pass
 
     def accept(self):
         """
