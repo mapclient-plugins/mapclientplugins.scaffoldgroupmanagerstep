@@ -3,15 +3,21 @@
 ################################################################################
 ## Form generated from reading UI file 'group_configuredialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 5.15.2
+## Created by: Qt User Interface Compiler version 6.4.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide2.QtCore import *
-from PySide2.QtGui import *
-from PySide2.QtWidgets import *
-
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
+    QFont, QFontDatabase, QGradient, QIcon,
+    QImage, QKeySequence, QLinearGradient, QPainter,
+    QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWidgets import (QAbstractButton, QApplication, QDialog, QDialogButtonBox,
+    QFormLayout, QGridLayout, QGroupBox, QLabel,
+    QPlainTextEdit, QSizePolicy, QWidget)
 
 class Ui_MehGroupConfigureDialog(object):
     def setupUi(self, MehGroupConfigureDialog):
@@ -36,7 +42,6 @@ class Ui_MehGroupConfigureDialog(object):
         self.label.setObjectName(u"label")
         font = QFont()
         font.setBold(True)
-        font.setWeight(75)
         self.label.setFont(font)
 
         self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label)
